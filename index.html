@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eugene Ho — Philosophy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e0d;
+      --bg-surface: #161614;
+      --bg-hover: #1e1e1b;
+      --text: #e8e4d9;
+      --text-muted: #8a8678;
+      --text-dim: #4a4840;
+      --accent: #c9b97a;
+      --accent-dim: #6b6040;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.13);
+      --font-serif: 'EB Garamond', Georgia, serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .wrapper {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14,14,13,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    nav .wordmark {
+      font-size: 15px;
+      font-family: var(--font-mono);
+      font-weight: 300;
+      color: var(--accent);
+      letter-spacing: 0.03em;
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul a {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 7rem 0 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    .hero-institution {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-bio {
+      max-width: 600px;
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ── Sections ── */
+    section {
+      padding: 5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--accent-dim);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .section-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    /* ── About ── */
+    .about-text p {
+      max-width: 640px;
+      font-size: 17px;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-text a {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--accent-dim);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.2s;
+    }
+
+    .about-text a:hover { text-decoration-color: var(--accent); }
+
+    /* ── Research ── */
+    .publications { display: flex; flex-direction: column; gap: 0; }
+
+    .pub-item {
+      padding: 1.6rem 0;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      transition: background 0.15s;
+    }
+
+    .pub-item:first-child { border-top: none; }
+
+    .pub-title {
+      font-size: 17px;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .pub-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .pub-status {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 300;
+      padding: 3px 10px;
+      border-radius: 2px;
+      white-space: nowrap;
+      margin-top: 4px;
+    }
+
+    .pub-status.published {
+      background: rgba(201,185,122,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(201,185,122,0.2);
+    }
+
+    .pub-status.forthcoming {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .pub-status.progress {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--text-dim);
+    }
+
+    .works-in-progress {
+      margin-top: 3rem;
+    }
+
+    .wip-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .wip-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .wip-list li {
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text-muted);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .wip-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--text-dim);
+    }
+
+    /* ── CV ── */
+    .cv-section { margin-bottom: 2.8rem; }
+    .cv-section:last-child { margin-bottom: 0; }
+
+    .cv-category {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--accent-dim);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .cv-entries { display: flex; flex-direction: column; gap: 0; }
+
+    .cv-entry {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 1rem;
+      padding: 0.65rem 0;
+      border-top: 1px solid var(--border);
+      align-items: baseline;
+    }
+
+    .cv-year {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text-dim);
+    }
+
+    .cv-content {
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    .cv-content strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .cv-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.6rem 1.2rem;
+      border-radius: 2px;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: 0.04em;
+    }
+
+    .cv-download:hover {
+      color: var(--text);
+      border-color: var(--border-hover);
+    }
+
+    .cv-download .arrow { transition: transform 0.2s; }
+    .cv-download:hover .arrow { transform: translateX(3px); }
+
+    /* ── Footer ── */
+    footer {
+      padding: 3rem 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--text-dim);
+    }
+
+    .footer-email a {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-email a:hover { color: var(--accent); }
+
+    /* ── Mobile ── */
+    @media (max-width: 580px) {
+      nav ul { gap: 1.2rem; }
+      .pub-item { grid-template-columns: 1fr; }
+      .cv-entry { grid-template-columns: 60px 1fr; }
+      .footer-inner { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="wrapper">
+      <a class="wordmark" href="#top">E.H.</a>
+      <ul>
+        <li><a href="#about">about</a></li>
+        <li><a href="#research">research</a></li>
+        <li><a href="#cv">cv</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="top" class="wrapper">
+
+    <header class="hero">
+      <p class="hero-label">Philosophy</p>
+      <h1>Eugene Ho <em>&amp;</em><br>the nature of mind</h1>
+      <p class="hero-institution">Nanyang Technological University · Singapore</p>
+      <p class="hero-bio">
+        I work on the philosophy of mind, language, and the metaphysics of intentionality.
+        My research draws on analytic philosophy and the history of twentieth-century
+        thought to examine how mental and linguistic representations acquire their content.
+      </p>
+    </header>
+
+    <section id="about">
+      <div class="section-header">
+        <span class="section-label">About</span>
+        <div class="section-rule"></div>
+      </div>
+      <div class="about-text">
+        <p>
+          I am an Assistant Professor in the School of Humanities at
+          <a href="https://www.ntu.edu.sg" target="_blank" rel="noopener">Nanyang Technological University</a>.
+          Before joining NTU, I completed my doctoral work at [institution] and held visiting
+          fellowships at [institution].
+        </p>
+        <p>
+          My work sits at the intersection of philosophy of mind, philosophy of language,
+          and metaphysics. I am especially interested in questions about mental content,
+          reference, and what it is for a mental state to be about something in the world.
+          I also have ongoing interests in the epistemology of testimony and in Wittgenstein.
+        </p>
+        <p>
+          I welcome enquiries from prospective graduate students working on related topics.
+          Feel free to <a href="mailto:eugene.ho@ntu.edu.sg">get in touch</a>.
+        </p>
+      </div>
+    </section>
+
+    <section id="research">
+      <div class="section-header">
+        <span class="section-label">Research</span>
+        <div class="section-rule"></div>
+      </div>
+
+      <div class="publications">
+
+        <div class="pub-item">
+          <div>
+            <p class="pub-title">Teleosemantics without proper functions</p>
+            <p class="pub-meta">Mind &amp; Language · 2024 · vol. 39, no. 2</p>
+          </div>
+          <span class="pub-status published">Published</span>
+        </div>
+
+        <div class="pub-item">
+          <div>
+            <p class="pub-title">Reference magnetism and the indeterminacy of radical interpretation</p>
+            <p class="pub-meta">Philosophical Studies · 2023 · vol. 180</p>
+          </div>
+          <span class="pub-status published">Published</span>
+        </div>
+
+        <div class="pub-item">
+          <div>
+            <p class="pub-title">Ought naturalness to be a primitive? A deflationary proposal</p>
+            <p class="pub-meta">Australasian Journal of Philosophy · forthcoming</p>
+          </div>
+          <span class="pub-status forthcoming">Forthcoming</span>
+        </div>
+
+        <div class="pub-item">
+          <div>
+            <p class="pub-title">On the cognitive role of Fregean sense</p>
+            <p class="pub-meta">under review</p>
+          </div>
+          <span class="pub-status progress">Under review</span>
+        </div>
+
+      </div>
+
+      <div class="works-in-progress">
+        <p class="wip-label">Works in progress</p>
+        <ul class="wip-list">
+          <li>Inferentialism and the problem of lost information</li>
+          <li>Wittgenstein on rule-following and content determination</li>
+          <li>Mental files and singular thought (book project)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="cv">
+      <div class="section-header">
+        <span class="section-label">Curriculum Vitae</span>
+        <div class="section-rule"></div>
+      </div>
+
+      <div class="cv-section">
+        <p class="cv-category">Appointments</p>
+        <div class="cv-entries">
+          <div class="cv-entry">
+            <span class="cv-year">2022–</span>
+            <span class="cv-content"><strong>Assistant Professor of Philosophy</strong>, Nanyang Technological University</span>
+          </div>
+          <div class="cv-entry">
+            <span class="cv-year">2020–22</span>
+            <span class="cv-content"><strong>Postdoctoral Research Fellow</strong>, [institution]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <p class="cv-category">Education</p>
+        <div class="cv-entries">
+          <div class="cv-entry">
+            <span class="cv-year">2020</span>
+            <span class="cv-content"><strong>PhD Philosophy</strong>, [institution] · dissertation: [title]</span>
+          </div>
+          <div class="cv-entry">
+            <span class="cv-year">2015</span>
+            <span class="cv-content"><strong>BA (Hons) Philosophy</strong>, [institution]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <p class="cv-category">Teaching</p>
+        <div class="cv-entries">
+          <div class="cv-entry">
+            <span class="cv-year">NTU</span>
+            <span class="cv-content">Philosophy of Mind · Philosophy of Language · Metaphysics · Introduction to Analytic Philosophy</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <p class="cv-category">Service</p>
+        <div class="cv-entries">
+          <div class="cv-entry">
+            <span class="cv-year"></span>
+            <span class="cv-content">Referee for <em>Mind</em>, <em>Mind &amp; Language</em>, <em>Philosophical Studies</em>, <em>Synthese</em></span>
+          </div>
+        </div>
+      </div>
+
+      <a class="cv-download" href="cv.pdf" target="_blank">
+        Download full CV (PDF) <span class="arrow">→</span>
+      </a>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="wrapper">
+      <div class="footer-inner">
+        <span class="footer-text">© 2025 Eugene Ho</span>
+        <span class="footer-email"><a href="mailto:eugene.ho@ntu.edu.sg">eugene.ho@ntu.edu.sg</a></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
